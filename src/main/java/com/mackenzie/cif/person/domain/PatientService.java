@@ -1,6 +1,5 @@
 package com.mackenzie.cif.person.domain;
 
-import com.mackenzie.cif.person.common.AES;
 import com.mackenzie.cif.person.domain.dto.PatientDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +8,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.PageFormat;
-import java.awt.print.Printable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -31,13 +27,13 @@ public class PatientService {
         List<PatientDTO> patients = repository.findAll().stream().map(PatientDTO::create).collect(Collectors.toList());
         return patients;
     }
-
-    public List<PatientDTO> listAllPatients(Integer initialPage){
+    public List<PatientDTO> listAllPatients(Integer initialIndex, Integer finalIndex){
         log.info("Service list all patients >>>>>");
-        Pageable firstPageWithTwoElements = PageRequest.of(0, initialPage);
+        Pageable firstPageWithTwoElements = PageRequest.of(initialIndex, finalIndex);
         List<PatientDTO> patients = repository.findAll(firstPageWithTwoElements).stream().map(PatientDTO::create).collect(Collectors.toList());
         return patients;
     }
+
 
     public PatientDTO findPatientById(Integer id){
         log.info("Service find patient by id >>>>>");

@@ -6,9 +6,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.lang.Nullable;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -20,11 +23,19 @@ public class PatientController {
     private PatientService service;
 
     @GetMapping("/listAll")
-    public ResponseEntity listAllPatients(){
+    public ResponseEntity listAllPatients(@RequestParam @Nullable Integer page, @RequestParam @Nullable Integer pageSize){
         log.info("List all questions >>>>>");
-        List<PatientDTO> patients = new ArrayList();
+        List<PatientDTO> patients = null;
         try{
-            patients = service.listAllPatients();
+            if(page == null && pageSize != null){
+                log.info("Received final index {}", pageSize);
+                patients = service.listAllPatients(0,pageSize);
+            }else if(page != null && pageSize != null){
+                log.info("Received both index: "+ page + "and " +  pageSize);
+                patients = service.listAllPatients(page,pageSize);
+            }else {
+                patients = service.listAllPatients();
+            }
         }catch (Exception e){
             log.error("Error while listing all patients", e.getMessage());
             e.printStackTrace();
