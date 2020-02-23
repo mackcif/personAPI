@@ -1,6 +1,8 @@
 package com.mackenzie.cif.person.domain.dto;
 
+import com.mackenzie.cif.person.domain.Adress;
 import com.mackenzie.cif.person.domain.Patient;
+import com.mackenzie.cif.person.domain.Person;
 import lombok.Data;
 import org.modelmapper.ModelMapper;
 
@@ -8,18 +10,8 @@ import org.modelmapper.ModelMapper;
 public class PatientDTO {
     private Integer patientID;
     private Integer therapistID;
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String password;
-    private String sex;
-    private String telephoneNumber;
-    private String publicPlace;
-    private Integer houseNumber;
-    private String neighborhood;
-    private String city;
-    private String state;
-    private String postalCode;
+    private Person person;
+    private Adress adress;
     private String note;
 
     public static PatientDTO create(Patient p){
