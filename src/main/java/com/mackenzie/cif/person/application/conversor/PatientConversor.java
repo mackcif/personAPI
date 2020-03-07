@@ -9,10 +9,10 @@ public class PatientConversor {
     public static Patient patientDtoToPatient(PatientDTO dto){
         log.info("Converting PatientDTO to Patient");
         Patient patient = new Patient();
-        patient.setTherapistID(dto.getTherapistID());
+        patient.setTherapist_id(dto.getTherapist_id());
         patient.setActive(dto.getActive());
         patient.setNote(dto.getNote());
-        patient.setAdress(dto.getAdress());
+        patient.setAddress(dto.getAddress());
         patient.setPerson(dto.getPerson());
         log.info("Successful conversion!");
         return patient;
@@ -21,11 +21,11 @@ public class PatientConversor {
     public static PatientDTO patientToPatientDTO(Patient patient){
         log.info("Converting PatientDTO to Patient");
         PatientDTO dto = new PatientDTO();
-        dto.setTherapistID(patient.getTherapistID());
+        dto.setTherapist_id(patient.getTherapist_id());
         dto.setActive(patient.getActive());
         dto.setNote(patient.getNote());
         dto.setPerson(patient.getPerson());
-        dto.setAdress(patient.getAdress());
+        dto.setAddress(patient.getAddress());
         log.info("Successful conversion!");
         return dto;
     }

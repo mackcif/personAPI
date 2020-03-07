@@ -2,14 +2,13 @@ package com.mackenzie.cif.person.domain.domain;
 
 import lombok.Data;
 
-import javax.persistence.Embeddable;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 
 @Data
-@Embeddable
-public class Adress {
+public class Address {
     @NotNull
     private String publicPlace;
 

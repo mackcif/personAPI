@@ -2,14 +2,13 @@ package com.mackenzie.cif.person.domain.domain;
 
 import lombok.Data;
 
-import javax.persistence.Embeddable;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
-@Embeddable
 public class Person {
 
     @NotNull
@@ -19,7 +18,7 @@ public class Person {
     private String lastName;
 
     @NotNull
-    private LocalDate birthDate;
+    private LocalDateTime birthDate;
 
     @NotNull
     @Email

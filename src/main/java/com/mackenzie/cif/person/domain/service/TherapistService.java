@@ -25,7 +25,7 @@ public class TherapistService {
         return rep.findAll().stream().map(TherapistDTO::create).collect(Collectors.toList());
     }
 
-    public TherapistDTO findTherapistById(Integer id){
+    public TherapistDTO findTherapistById(String id){
         log.info("Service find therapist by id >>>>>");
         Optional<Therapist> therapist = null;
         TherapistDTO therapistDTO = null;

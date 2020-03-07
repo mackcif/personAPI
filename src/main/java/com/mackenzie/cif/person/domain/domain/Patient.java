@@ -2,32 +2,27 @@ package com.mackenzie.cif.person.domain.domain;
 
 
 import lombok.Data;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-
-import javax.persistence.*;
-
-
-@Entity
 @Data
+@Document(collection = "Patient")
 public class Patient {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer patientID;
+    private String id;
 
-    @Embedded
     private Person person;
 
-    @Embedded
-    private Adress adress;
+    private Address address;
 
-    private Integer therapistID;
+    private String therapist_id;
     private String note;
 
     private Boolean active;
 
-    public void setAdress(Adress adress){
-        this.adress = adress;
+    public void setAddress(Address address){
+        this.address = address;
     }
 
     public void person(Person person){

@@ -3,27 +3,25 @@ package com.mackenzie.cif.person.domain.domain;
 import com.mackenzie.cif.person.domain.dto.TherapistDTO;
 import lombok.Data;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.persistence.*;
 
-@Entity
 @Data
+@Document(collection = "Therapist")
 public class Therapist {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer therapistID;
+    private String id;
 
-    @Embedded
     private Person person;
 
-    @Embedded
-    private Adress adress;
+    private Address address;
 
     private String crefito;
     private Boolean active;
 
-    public void setAdress(Adress adress){
-        this.adress = adress;
+    public void setAddress(Address address){
+        this.address = address;
     }
 
     public void person(Person person){
