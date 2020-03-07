@@ -40,7 +40,7 @@ public class TherapistController {
     }
 
     @GetMapping("/findTherapistById")
-    public ResponseEntity findTherapistById(@RequestParam Integer id) {
+    public ResponseEntity findTherapistById(@RequestParam String id) {
         log.info("Find therapist by id started >>>>>");
         TherapistDTO therapistDTO = null;
         try {

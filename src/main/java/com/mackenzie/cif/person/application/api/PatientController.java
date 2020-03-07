@@ -49,7 +49,7 @@ public class PatientController {
     }
 
     @GetMapping("/findPatientById")
-    public ResponseEntity findPatientById(@RequestParam Integer id){
+    public ResponseEntity findPatientById(@RequestParam String id){
         log.info("Find patient by id started >>>>>");
 
         PatientDTO patientDTO = null;
@@ -88,9 +88,9 @@ public class PatientController {
     }
 
     @PutMapping("/updatePatient/{id}")
-    public ResponseEntity updatePatient(@PathVariable Integer id,@RequestBody @Valid PatientDTO body){
+    public ResponseEntity updatePatient(@PathVariable String id,@RequestBody @Valid PatientDTO body){
         log.info("Update patient started >>>>>");
-        body.setPatientID(id);
+        body.setId(id);
         PatientDTO response = null;
         try {
             response = service.updatePatient(PatientConversor.patientDtoToPatient(body), id);
@@ -104,7 +104,7 @@ public class PatientController {
     }
 
     @PutMapping("/updatePassword/{id}")
-    public ResponseEntity updatePassword(@RequestParam String password, @PathVariable Integer id){
+    public ResponseEntity updatePassword(@RequestParam String password, @PathVariable String id){
         log.info("Update password started >>>>>");
         if(password == null || password.equals("")) {
             return new ResponseEntity("Password must not be null", HttpStatus.BAD_REQUEST);
@@ -125,7 +125,7 @@ public class PatientController {
     }
 
     @DeleteMapping("/deletePatient/{id}")
-    public ResponseEntity deletePatient(@PathVariable Integer id){
+    public ResponseEntity deletePatient(@PathVariable String id){
         try{
             service.delete(id);
         }catch (Exception e){
@@ -135,7 +135,7 @@ public class PatientController {
     }
 
     @PutMapping("/reactivatePatient/{id}")
-    public ResponseEntity reactivatePatient(@PathVariable Integer id){
+    public ResponseEntity reactivatePatient(@PathVariable String id){
         PatientDTO response = null;
         try{
             response = service.reactivatePatient(id);

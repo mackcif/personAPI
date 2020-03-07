@@ -38,7 +38,7 @@ public class PatientService {
         return patients;
     }
 
-    public PatientDTO findPatientById(Integer id){
+    public PatientDTO findPatientById(String id){
         log.info("Service find patient by id >>>>>");
         Optional<Patient> patient = null;
         PatientDTO patientDTO = null;
@@ -63,16 +63,16 @@ public class PatientService {
         return PatientDTO.create(repository.save(patient));
     }
 
-    public PatientDTO updatePatient(Patient patient, Integer id){
+    public PatientDTO updatePatient(Patient patient, String id){
         Optional<Patient> optional = repository.findById(id);
 
         if(optional.isPresent()){
             Patient db = optional.get();
             if(!db.getPerson().getPassword().equals(patient.getPerson().getPassword()))
                 patient.getPerson().setPassword(AES.encrypt(patient.getPerson().getPassword(),KEY));
-            db.setTherapistID(patient.getTherapistID());
+            db.setTherapist_id(patient.getTherapist_id());
             db.setNote(patient.getNote());
-            db.setAdress(patient.getAdress());
+            db.setAddress(patient.getAddress());
             db.setPerson(patient.getPerson());
             repository.save(db);
             return PatientDTO.create(db);
@@ -81,7 +81,7 @@ public class PatientService {
         }
     }
 
-    public PatientDTO updatePassword(String password, Integer id){
+    public PatientDTO updatePassword(String password, String id){
         Optional<Patient> optional = repository.findById(id);
 
         if(optional.isPresent()){
@@ -94,7 +94,7 @@ public class PatientService {
         }
     }
 
-    public void delete(Integer id){
+    public void delete(String id){
         Optional<Patient> optional = repository.findById(id);
 
         if(optional.isPresent()){
@@ -106,7 +106,7 @@ public class PatientService {
         }
     }
 
-    public PatientDTO reactivatePatient(Integer id){
+    public PatientDTO reactivatePatient(String id){
         Optional<Patient> optional = repository.findById(id);
         if(optional.isPresent()){
             Patient db = optional.get();

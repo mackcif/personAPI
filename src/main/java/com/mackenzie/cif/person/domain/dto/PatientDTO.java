@@ -1,6 +1,6 @@
 package com.mackenzie.cif.person.domain.dto;
 
-import com.mackenzie.cif.person.domain.domain.Adress;
+import com.mackenzie.cif.person.domain.domain.Address;
 import com.mackenzie.cif.person.domain.domain.Patient;
 import com.mackenzie.cif.person.domain.domain.Person;
 import lombok.Data;
@@ -11,10 +11,10 @@ import javax.validation.constraints.NotNull;
 
 @Data
 public class PatientDTO {
-    private Integer patientID;
+    private String id;
 
     @NotNull
-    private Integer therapistID;
+    private String therapist_id;
 
     @NotNull
     @Valid
@@ -22,7 +22,7 @@ public class PatientDTO {
 
     @NotNull
     @Valid
-    private Adress adress;
+    private Address address;
 
     private String note;
 
