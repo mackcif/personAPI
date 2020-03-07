@@ -27,16 +27,16 @@ public class PatientController {
     private String KEY;
 
     @GetMapping("/listAll")
-    public ResponseEntity listAllPatients(@RequestParam @Nullable Integer page, @RequestParam @Nullable Integer pageSize){
+    public ResponseEntity listAllPatients(@RequestParam @Nullable Integer page, @RequestParam @Nullable Integer size){
         log.info("List all questions >>>>>");
         List<PatientDTO> patients = null;
         try{
-            if(page == null && pageSize != null){
-                log.info("Received final index {}", pageSize);
-                patients = service.listAllPatients(0,pageSize);
-            }else if(page != null && pageSize != null){
-                log.info("Received both index: "+ page + "and " +  pageSize);
-                patients = service.listAllPatients(page,pageSize);
+            if(page == null && size != null){
+                log.info("Received final index {}", size);
+                patients = service.listAllPatients(0,size);
+            }else if(page != null && size != null){
+                log.info("Received both index: "+ page + "and " +  size);
+                patients = service.listAllPatients(page,size);
             }else {
                 patients = service.listAllPatients();
             }
@@ -76,12 +76,14 @@ public class PatientController {
             patient = PatientConversor.patientDtoToPatient(body);
         }catch (Exception e){
             log.error("Could not convert PatientDTO to Patient");
+            log.error(e.getMessage());
             return new ResponseEntity("Could not convert PatientDTO to Patient", HttpStatus.INTERNAL_SERVER_ERROR);
         }
         try{
             resposne = service.registerPatient(patient);
         }catch (Exception e){
             log.error("Could not register the patient");
+            log.error(e.getMessage());
             return new ResponseEntity("Could not register the patient", HttpStatus.NOT_MODIFIED);
         }
         return new ResponseEntity(resposne,HttpStatus.CREATED);
@@ -95,6 +97,7 @@ public class PatientController {
         try {
             response = service.updatePatient(PatientConversor.patientDtoToPatient(body), id);
         }catch (Exception e){
+            log.error(e.getMessage());
             return new ResponseEntity("Could not update patient",HttpStatus.INTERNAL_SERVER_ERROR);
         }
         if(response == null){
@@ -116,6 +119,7 @@ public class PatientController {
         try {
             response = service.updatePassword(password, id);
         }catch (Exception e){
+            log.error(e.getMessage());
             return new ResponseEntity("Could not update password",HttpStatus.INTERNAL_SERVER_ERROR);
         }
         if(response == null){
@@ -129,6 +133,7 @@ public class PatientController {
         try{
             service.delete(id);
         }catch (Exception e){
+            log.error(e.getMessage());
             return new ResponseEntity("Could not delete patient",HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity(HttpStatus.NO_CONTENT);
@@ -140,6 +145,7 @@ public class PatientController {
         try{
             response = service.reactivatePatient(id);
         }catch (Exception e){
+            log.error(e.getMessage());
             return new ResponseEntity("Could not reactivate patient",HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity(response, HttpStatus.OK);
