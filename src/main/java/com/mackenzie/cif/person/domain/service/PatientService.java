@@ -30,11 +30,11 @@ public class PatientService {
         List<PatientDTO> patients = repository.findAllByActive(true).stream().map(PatientDTO::create).collect(Collectors.toList());
         return patients;
     }
-    public List<PatientDTO> listAllPatients(Integer initialIndex, Integer finalIndex){
+    public List<PatientDTO> listAllPatients(Integer page, Integer size){
         log.info("Service list all patients >>>>>");
-        Pageable firstPageWithTwoElements = PageRequest.of(initialIndex, finalIndex);
-        List<PatientDTO> patients = repository.findAll(firstPageWithTwoElements).stream().map(PatientDTO::create).collect(Collectors.toList());
-        patients.removeIf(patientDTO -> patientDTO.getActive());
+        Pageable pageable = PageRequest.of(page, size);
+        List<PatientDTO> patients = repository.findAll(pageable).stream().map(PatientDTO::create).collect(Collectors.toList());
+        patients.removeIf(patientDTO -> !patientDTO.getActive());
         return patients;
     }
 
