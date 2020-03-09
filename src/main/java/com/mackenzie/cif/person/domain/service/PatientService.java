@@ -118,4 +118,32 @@ public class PatientService {
         }
     }
 
+    public PatientDTO login(String email, String password) throws IllegalAccessException {
+        log.info("Login service >>>>>");
+        Boolean exist = null;
+
+        log.info("encrypting password >>>>>");
+        password = AES.encrypt(password, KEY);
+
+        try{
+            log.info("validating existence of patient");
+             exist = repository.existsByPersonEmailAndPersonPassword(email,password);
+        }catch (Exception e){
+            log.error("Error while validating email and password");
+            log.error(e.getMessage());
+            throw e;
+        }
+
+        PatientDTO patientDTO = null;
+        if(exist){
+            log.info("searching patient on database");
+            Patient p = repository.findByPersonEmail(email);
+            patientDTO = PatientDTO.create(p);
+        }else{
+            log.error("usuario ou senha incorretos");
+            throw new IllegalAccessException("Email ou senha incorretos");
+        }
+        return patientDTO;
+    }
+
 }
