@@ -7,6 +7,7 @@ import com.mackenzie.cif.person.domain.service.PatientService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
@@ -81,6 +82,10 @@ public class PatientController {
         }
         try {
             resposne = service.registerPatient(patient);
+        }catch (DuplicateKeyException e){
+            log.error("Could not register patient, email already registered");
+            log.error(e.getMessage());
+            return new ResponseEntity("Email already registered", HttpStatus.FORBIDDEN);
         } catch (Exception e) {
             log.error("Could not register the patient");
             log.error(e.getMessage());

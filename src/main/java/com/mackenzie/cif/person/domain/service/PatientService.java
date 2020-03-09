@@ -7,6 +7,7 @@ import com.mackenzie.cif.person.domain.repository.PatientRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -60,7 +61,15 @@ public class PatientService {
     public PatientDTO registerPatient(Patient patient){
         patient.setActive(true);
         patient.getPerson().setPassword(AES.encrypt(patient.getPerson().getPassword(),KEY));
-        return PatientDTO.create(repository.save(patient));
+        Patient db = null;
+        try{
+           db = repository.save(patient);
+        }catch (DuplicateKeyException e){
+            log.error("Could not register patient, email already registered");
+            log.error(e.getMessage());
+            throw e;
+        }
+        return PatientDTO.create(db);
     }
 
     public PatientDTO updatePatient(Patient patient, String id){
