@@ -9,4 +9,6 @@ import java.util.Optional;
 @Repository
 public interface TherapistRepository extends MongoRepository<Therapist, String> {
     Optional<Therapist> findByCrefito(String crefito);
+
+    Boolean existsByPersonEmailAndPersonPassword(String email, String password);
 }
