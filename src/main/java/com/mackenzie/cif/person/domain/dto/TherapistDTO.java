@@ -8,7 +8,7 @@ import org.modelmapper.ModelMapper;
 
 @Data
 public class TherapistDTO {
-    private Integer id;
+    private String id;
 
     private Person person;
     private Address address;
