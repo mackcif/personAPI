@@ -27,6 +27,7 @@ public class PatientController {
     @Value("${secret.key}")
     private String KEY;
 
+    @CrossOrigin(origins = "*")
     @GetMapping("/listAll")
     public ResponseEntity listAllPatients(@RequestParam @Nullable Integer page, @RequestParam @Nullable Integer size) {
         log.info("List all questions >>>>>");
@@ -49,6 +50,7 @@ public class PatientController {
         return new ResponseEntity<>(patients, HttpStatus.OK);
     }
 
+    @CrossOrigin(origins = "*")
     @GetMapping("/findPatientById")
     public ResponseEntity findPatientById(@RequestParam String id) {
         log.info("Find patient by id started >>>>>");
@@ -68,6 +70,7 @@ public class PatientController {
         return new ResponseEntity(patientDTO, HttpStatus.OK);
     }
 
+    @CrossOrigin(origins = "*")
     @PostMapping("/register")
     public ResponseEntity registerPatient(@RequestBody @Valid PatientDTO body) {
         log.info("Register patient started >>>>>");
@@ -94,6 +97,7 @@ public class PatientController {
         return new ResponseEntity(resposne, HttpStatus.CREATED);
     }
 
+    @CrossOrigin(origins = "*")
     @PutMapping("/updatePatient/{id}")
     public ResponseEntity updatePatient(@PathVariable String id, @RequestBody @Valid PatientDTO body) {
         log.info("Update patient started >>>>>");
@@ -111,6 +115,7 @@ public class PatientController {
         return new ResponseEntity(response, HttpStatus.OK);
     }
 
+    @CrossOrigin(origins = "*")
     @PutMapping("/updatePassword/{id}")
     public ResponseEntity updatePassword(@RequestParam String password, @PathVariable String id) {
         log.info("Update password started >>>>>");
@@ -133,6 +138,7 @@ public class PatientController {
         return new ResponseEntity(response, HttpStatus.OK);
     }
 
+    @CrossOrigin(origins = "*")
     @DeleteMapping("/deletePatient/{id}")
     public ResponseEntity deletePatient(@PathVariable String id) {
         try {
@@ -144,6 +150,7 @@ public class PatientController {
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
+    @CrossOrigin(origins = "*")
     @PutMapping("/reactivatePatient/{id}")
     public ResponseEntity reactivatePatient(@PathVariable String id) {
         PatientDTO response = null;
@@ -156,6 +163,7 @@ public class PatientController {
         return new ResponseEntity(response, HttpStatus.OK);
     }
 
+    @CrossOrigin(origins = "*")
     @GetMapping("/login")
     public ResponseEntity login(@RequestHeader String email, @RequestHeader String password) throws IllegalAccessException {
         log.info("Login started >>>>>");
