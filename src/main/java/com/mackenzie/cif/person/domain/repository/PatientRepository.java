@@ -10,6 +10,10 @@ import java.util.Optional;
 @Repository
 public interface PatientRepository extends MongoRepository<Patient, String> {
     List<Patient> findAllByActive(Boolean active);
+
+    Boolean existsByPersonEmailAndPersonPassword(String email, String password);
+
+    Patient findByPersonEmail(String email);
 }
 
 
