@@ -42,19 +42,19 @@ public class PersonController {
                 person.getPatient().setTherapist(therapist);
             } else {
                 log.error("Could not find Therapist for");
-                return new ResponseEntity("Could not register the patient", HttpStatus.NOT_MODIFIED);
+                return new ResponseEntity("Could not register the person", HttpStatus.NOT_MODIFIED);
             }
         }
         try {
             service.registerPerson(person);
         } catch (DuplicateKeyException e) {
-            log.error("Could not register patient, email already registered");
+            log.error("Could not register person, email already registered");
             log.error(e.getMessage());
             return new ResponseEntity("Email already registered", HttpStatus.FORBIDDEN);
         } catch (Exception e) {
-            log.error("Could not register the patient");
+            log.error("Could not register the person");
             log.error(e.getMessage());
-            return new ResponseEntity("Could not register the patient", HttpStatus.NOT_MODIFIED);
+            return new ResponseEntity("Could not register the person", HttpStatus.NOT_MODIFIED);
         }
         return new ResponseEntity(HttpStatus.CREATED);
     }
@@ -62,7 +62,13 @@ public class PersonController {
     @CrossOrigin("*")
     @GetMapping("/listAllPatient")
     public ResponseEntity listAllPatient() {
-        List<Person> patients = service.listAllPatient();
+        List<Person> patients = null;
+        try {
+            patients = service.listAllPatient();
+        } catch (Exception e) {
+            return new ResponseEntity("Could not retrieve list of patients", HttpStatus.OK);
+        }
+
 
         return new ResponseEntity(patients, HttpStatus.OK);
     }
@@ -70,15 +76,19 @@ public class PersonController {
     @CrossOrigin("*")
     @GetMapping("/listAllTherapist")
     public ResponseEntity listAllTherapist() {
-        List<Person> patients = service.listAllTherapist();
-
-        return new ResponseEntity(patients, HttpStatus.OK);
+        List<Person> therapists = null;
+        try {
+            therapists = service.listAllTherapist();
+        } catch (Exception e) {
+            return new ResponseEntity("Could not retrieve list of therapists", HttpStatus.OK);
+        }
+        return new ResponseEntity(therapists, HttpStatus.OK);
     }
 
     @CrossOrigin(origins = "*")
     @GetMapping("/findById/{id}")
     public ResponseEntity findPersonById(@PathVariable String id) {
-        log.info("Find patient by id started >>>>>");
+        log.info("Find person by id started >>>>>");
 
         Person person = null;
         try {
@@ -98,7 +108,7 @@ public class PersonController {
     @CrossOrigin(origins = "*")
     @PutMapping("/updatePerson/{id}")
     public ResponseEntity updatePerson(@PathVariable String id, @RequestBody @Valid Person body) {
-        log.info("Update patient started >>>>>");
+        log.info("Update person started >>>>>");
         if (body.getCpf() == null || !ValidadorCpf.isCPF(body.getCpf())) {
             log.error("Invalid cpf!");
             return new ResponseEntity("Please enter a valid CPF", HttpStatus.FORBIDDEN);
