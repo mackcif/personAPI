@@ -5,9 +5,9 @@ import com.mackenzie.cif.person.common.ValidadorCpf;
 import com.mackenzie.cif.person.domain.domain.Person;
 import com.mackenzie.cif.person.domain.dto.PersonRequest;
 import com.mackenzie.cif.person.domain.service.PersonService;
-import com.mongodb.DuplicateKeyException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -50,7 +50,9 @@ public class PersonController {
         } catch (DuplicateKeyException e) {
             log.error("Could not register person, email already registered");
             log.error(e.getMessage());
-            return new ResponseEntity("Email already registered", HttpStatus.FORBIDDEN);
+            if(e.getMessage().contains("cpf"))
+                return new ResponseEntity("CPF_ALREADY_REGISTERED", HttpStatus.FORBIDDEN);
+            return new ResponseEntity("EMAIL_ALREADY_REGISTERED", HttpStatus.FORBIDDEN);
         } catch (Exception e) {
             log.error("Could not register the person");
             log.error(e.getMessage());
