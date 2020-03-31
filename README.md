@@ -168,7 +168,7 @@ Possiveis Retornos
 | 404 | `NOT FOUND` |   `Could not find person` |
 | 500 | `INTERNAL SERVER ERROR` |  `Error while finding person with ID [ID]` |
 
-Find By ID
+Find Patients By Therapist
 -
 * Retorna os pacientes referente ao ID do terapeuta recebido
 ```http
