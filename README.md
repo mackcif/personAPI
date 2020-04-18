@@ -12,6 +12,8 @@ Os links abaixo levam as outras API's usadas no projeto.
 # Endpoints e Responses
 Base Url: https://java-cif-person-api.herokuapp.com
 
+:point_right: [Download postman collection](https://drive.google.com/file/d/1n8u304yYKJAL5DkNAohzgSLJq7qMr8zi/view?usp=sharing)  :point_left:
+
 List All Patients
 -
 * Lista todos os pacientes ativos na base
