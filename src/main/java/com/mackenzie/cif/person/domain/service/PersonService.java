@@ -52,6 +52,7 @@ public class PersonService {
         Person person = null;
         try {
             person = repository.findByIdAndActiveIsTrue(id);
+            person.setPassword(AES.decrypt(person.getPassword(), KEY));
         } catch (Exception e) {
             log.error("Could not find person!");
             log.error(e.getMessage());
