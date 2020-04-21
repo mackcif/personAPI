@@ -34,7 +34,7 @@ public interface PersonRepository extends MongoRepository<Person, String> {
      * @param cpf
      * @return specific person based on cpf
      */
-    Person findByCpf(String email);
+    Person findByCpf(String cpf);
 
     /*
      * @param email

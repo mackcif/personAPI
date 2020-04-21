@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/v1/person")
@@ -25,14 +26,14 @@ public class PersonController {
 
     @CrossOrigin("*")
     @PostMapping("/register")
-    public ResponseEntity<Void> registerPerson(@RequestBody PersonRequest body) {
+    public ResponseEntity<?> registerPerson(@RequestBody PersonRequest body) {
         log.info("Register person started >>>>>");
-        Person therapist = null;
-        Person person = null;
+        Person therapist;
+        Person person;
 
         if (body.getCpf() == null || !ValidadorCpf.isCPF(body.getCpf())) {
             log.error("Invalid cpf!");
-            return new ResponseEntity("Please enter a valid CPF", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("Please enter a valid CPF", HttpStatus.FORBIDDEN);
         }
 
         person = PersonConversor.personRequestToPerson(body);
@@ -42,7 +43,7 @@ public class PersonController {
                 person.getPatient().setTherapist(therapist);
             } else {
                 log.error("Could not find Therapist for");
-                return new ResponseEntity("Could not register the person", HttpStatus.NOT_MODIFIED);
+                return new ResponseEntity<>("Could not register the person", HttpStatus.NOT_MODIFIED);
             }
         }
         try {
@@ -50,49 +51,49 @@ public class PersonController {
         } catch (DuplicateKeyException e) {
             log.error("Could not register person, email already registered");
             log.error(e.getMessage());
-            if(e.getMessage().contains("cpf"))
-                return new ResponseEntity("CPF_ALREADY_REGISTERED", HttpStatus.FORBIDDEN);
-            return new ResponseEntity("EMAIL_ALREADY_REGISTERED", HttpStatus.FORBIDDEN);
+            if(Objects.requireNonNull(e.getMessage()).contains("cpf"))
+                return new ResponseEntity<>("CPF_ALREADY_REGISTERED", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("EMAIL_ALREADY_REGISTERED", HttpStatus.FORBIDDEN);
         } catch (Exception e) {
             log.error("Could not register the person");
             log.error(e.getMessage());
-            return new ResponseEntity("Could not register the person", HttpStatus.NOT_MODIFIED);
+            return new ResponseEntity<>("Could not register the person", HttpStatus.NOT_MODIFIED);
         }
-        return new ResponseEntity(HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @CrossOrigin("*")
     @GetMapping("/listAllPatient")
-    public ResponseEntity listAllPatient() {
-        List<Person> patients = null;
+    public ResponseEntity<?> listAllPatient() {
+        List<Person> patients;
         try {
             patients = service.listAllPatient();
         } catch (Exception e) {
-            return new ResponseEntity("Could not retrieve list of patients", HttpStatus.OK);
+            return new ResponseEntity<>("Could not retrieve list of patients", HttpStatus.OK);
         }
 
 
-        return new ResponseEntity(patients, HttpStatus.OK);
+        return new ResponseEntity<>(patients, HttpStatus.OK);
     }
 
     @CrossOrigin("*")
     @GetMapping("/listAllTherapist")
-    public ResponseEntity listAllTherapist() {
-        List<Person> therapists = null;
+    public ResponseEntity<?> listAllTherapist() {
+        List<Person> therapists;
         try {
             therapists = service.listAllTherapist();
         } catch (Exception e) {
-            return new ResponseEntity("Could not retrieve list of therapists", HttpStatus.OK);
+            return new ResponseEntity<>("Could not retrieve list of therapists", HttpStatus.OK);
         }
-        return new ResponseEntity(therapists, HttpStatus.OK);
+        return new ResponseEntity<>(therapists, HttpStatus.OK);
     }
 
     @CrossOrigin(origins = "*")
     @GetMapping("/findPatientsByTherapist/{id}")
-    public ResponseEntity findPatientsByTherapist(@PathVariable String id) {
+    public ResponseEntity<?> findPatientsByTherapist(@PathVariable String id) {
         log.info("findPatientsByTherapist>>>>>");
 
-        List<Person> patients = null;
+        List<Person> patients;
         try {
             patients = service.findPatientsByTherapist(id);
         } catch (Exception e) {
@@ -102,17 +103,17 @@ public class PersonController {
         }
         if (patients == null) {
             String notFound = "NO_PATIENTS_FOR_THERAPIST";
-            return new ResponseEntity(notFound, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(notFound, HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity(patients, HttpStatus.OK);
+        return new ResponseEntity<>(patients, HttpStatus.OK);
     }
 
     @CrossOrigin(origins = "*")
     @GetMapping("/findById/{id}")
-    public ResponseEntity findPersonById(@PathVariable String id) {
+    public ResponseEntity<?> findPersonById(@PathVariable String id) {
         log.info("Find person by id started >>>>>");
 
-        Person person = null;
+        Person person;
         try {
             person = service.findPersonById(id);
         } catch (Exception e) {
@@ -122,97 +123,121 @@ public class PersonController {
         }
         if (person == null) {
             String notFound = "Could not find person";
-            return new ResponseEntity(notFound, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(notFound, HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity(person, HttpStatus.OK);
+        return new ResponseEntity<>(person, HttpStatus.OK);
     }
 
     @CrossOrigin(origins = "*")
     @PutMapping("/updatePerson/{id}")
-    public ResponseEntity updatePerson(@PathVariable String id, @RequestBody @Valid Person body) {
+    public ResponseEntity<?> updatePerson(@PathVariable String id, @RequestBody @Valid Person body) {
         log.info("Update person started >>>>>");
         if (body.getCpf() == null || !ValidadorCpf.isCPF(body.getCpf())) {
             log.error("Invalid cpf!");
-            return new ResponseEntity("Please enter a valid CPF", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>("Please enter a valid CPF", HttpStatus.FORBIDDEN);
         }
         body.setId(id);
-        Person response = null;
+        Person response;
         try {
             response = service.updatePerson(body, id);
         } catch (Exception e) {
             log.error(e.getMessage());
-            return new ResponseEntity("Could not update person", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Could not update person", HttpStatus.INTERNAL_SERVER_ERROR);
         }
         if (response == null) {
-            return new ResponseEntity("Could not found person", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Could not found person", HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity(response, HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 
     @CrossOrigin(origins = "*")
     @PutMapping("/updatePassword/{id}")
-    public ResponseEntity updatePassword(@RequestHeader @Valid String password, @PathVariable String id) {
+    public ResponseEntity<?> updatePassword(@RequestHeader @Valid String password, @PathVariable String id) {
         log.info("Update password started >>>>>");
         if (password == null || password.equals("")) {
-            return new ResponseEntity("Password must not be null", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Password must not be null", HttpStatus.BAD_REQUEST);
         }
         if (password.length() < 6 || password.length() > 8) {
-            return new ResponseEntity("Password must be at least 6 characters and at most 8", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Password must be at least 6 characters and at most 8", HttpStatus.BAD_REQUEST);
         }
-        Person response = null;
+        Person response;
         try {
             response = service.updatePassword(password, id);
         } catch (Exception e) {
             log.error(e.getMessage());
-            return new ResponseEntity("Could not update password", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Could not update password", HttpStatus.INTERNAL_SERVER_ERROR);
         }
         if (response == null) {
-            return new ResponseEntity("Could not found password from ID: " + id, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Could not found password from ID: " + id, HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity(response, HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @CrossOrigin(origins = "*")
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity deletePerson(@PathVariable String id) {
+    public ResponseEntity<?> deletePerson(@PathVariable String id) {
         try {
             service.inactivate(id);
         } catch (Exception e) {
             log.error(e.getMessage());
-            return new ResponseEntity("Could not delete person", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Could not delete person", HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @CrossOrigin(origins = "*")
     @PutMapping("/reactivatePerson/{id}")
-    public ResponseEntity reactivatePerson(@PathVariable String id) {
-        Person response = null;
+    public ResponseEntity<?> reactivatePerson(@PathVariable String id) {
+        Person response;
         try {
             response = service.reactivatePerson(id);
         } catch (Exception e) {
             log.error(e.getMessage());
-            return new ResponseEntity("Could not reactivate person", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Could not reactivate person", HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity(response, HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @CrossOrigin(origins = "*")
     @GetMapping("/login")
-    public ResponseEntity login(@RequestHeader String userLogin, @RequestHeader String password) throws IllegalAccessException {
+    public ResponseEntity<?> login(@RequestHeader String userLogin, @RequestHeader String password) throws IllegalAccessException {
         log.info("Login started >>>>>");
-        Person person = null;
+        Person person;
         try {
             person = service.login(userLogin, password);
         } catch (IllegalAccessException e) {
             log.error("usuario ou senha incorretos");
-            return new ResponseEntity("Usuario ou senha incorretos", HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>("Usuario ou senha incorretos", HttpStatus.UNAUTHORIZED);
         } catch (Exception e) {
             log.error("Error while validating userLogin and password");
             log.error(e.getMessage());
-            return new ResponseEntity("Error while validating userLogin and password", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Error while validating userLogin and password", HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity(person, HttpStatus.OK);
+        return new ResponseEntity<>(person, HttpStatus.OK);
+    }
+
+    @CrossOrigin(origins = "*")
+    @GetMapping("/findbycpf/{cpf}")
+    public ResponseEntity<?> findPersonByCPF(@PathVariable String cpf){
+        log.info("find by cpf started >>>>>");
+        Person person = null;
+        try{
+            log.info("validating cpf >>>>>");
+            if(!ValidadorCpf.isCPF(cpf)) return new ResponseEntity<>("Please entry a valid CPF", HttpStatus.FORBIDDEN);
+        }catch (Exception e){
+            log.error("Error while validating CPF");
+            return new ResponseEntity<>("Error while validating CPF", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        try{
+            person = service.findPersonByCPF(cpf);
+            if (person == null) {
+                return new ResponseEntity<>("Could not find person with CPF: " + cpf,HttpStatus.NOT_FOUND);
+            }
+            return new ResponseEntity<>(person, HttpStatus.OK);
+        }catch (Exception e){
+            log.error("Error while trying to find person with CPF");
+            return new ResponseEntity<>("Error while trying to find person with CPF", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }
