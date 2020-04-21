@@ -217,6 +217,52 @@ Possiveis Retornos
 | 404 | `NOT FOUND` |   
 | 500 | `INTERNAL SERVER ERROR` | 
 
+Find By CPF
+-
+* Retorna as informações do usuario referente ao CPF recebido
+```http
+ GET /v1/person/findbycpf/{cpf}
+```
+|   Where   | Parameter | Type | Description |  Required    |
+| :--- | :--- | :--- | :--- | :--- |
+| `path` | `cpf` | `string` | Person CPF  |  **TRUE**    |
+
+Example Response
+```json
+{
+    "id": "string",
+    "cpf": "string",
+    "firstName": "string",
+    "lastName": "string",
+    "birthDate": "date time",
+    "email": "sintr",
+    "password": "string",
+    "sex": "string",
+    "telephoneNumber": "string",
+    "address": {
+        "publicPlace": "string",
+        "houseNumber": 213,
+        "neighborhood": "string",
+        "city": "string",
+        "state": "string",
+        "postalCode": "string"
+    },
+    "active": true
+}
+```
+
+## Status Codes
+
+Possiveis Retornos
+
+| Status Code | Description |
+| :--- | :--- |
+| 200 | `OK` | [RESPONSE] |
+| 400 | `BAD REQUEST` | 
+| 404 | `NOT FOUND` |   
+| 500 | `INTERNAL SERVER ERROR` | 
+
+
 Login
 -
 * Verifica as informações passadas e se estiverem corretas, retornam as informações dos mesmos

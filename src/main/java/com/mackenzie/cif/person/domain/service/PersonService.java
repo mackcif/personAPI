@@ -174,4 +174,15 @@ public class PersonService {
         }
         return person;
     }
+
+    public Person findPersonByCPF(String cpf){
+        Person person = null;
+        try{
+            person = repository.findByCpf(cpf);
+        }catch (Exception e){
+            log.error("Error while trying to find person by CPF", e.getMessage());
+            throw e;
+        }
+        return person;
+    }
 }
