@@ -52,7 +52,10 @@ public class PersonService {
         Person person = null;
         try {
             person = repository.findByIdAndActiveIsTrue(id);
-            person.setPassword(AES.decrypt(person.getPassword(), KEY));
+            if(person != null){
+                person.setPassword(AES.decrypt(person.getPassword(), KEY));
+            }
+
         } catch (Exception e) {
             log.error("Could not find person!");
             log.error(e.getMessage());
@@ -165,14 +168,15 @@ public class PersonService {
     }
 
     public List<Person> findPatientsByTherapist(String id){
-        List<Person> person = null;
+        List<Person> patients = null;
         try{
-            person = repository.findAllByPatientNotNullAndPatientTherapistId(id);
+            patients = repository.findAllByPatientNotNullAndPatientTherapistId(id);
+            patients.removeIf(patient -> !patient.getActive());
         }catch (Exception e){
             log.error("Erro while trying to list patients from therapist", e.getMessage());
             throw e;
         }
-        return person;
+        return patients;
     }
 
     public Person findPersonByCPF(String cpf){
