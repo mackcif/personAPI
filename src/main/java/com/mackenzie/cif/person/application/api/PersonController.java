@@ -110,7 +110,7 @@ public class PersonController {
 
     @CrossOrigin(origins = "*")
     @GetMapping("/findById/{id}")
-    public ResponseEntity<?> findPersonById(@PathVariable String id) {
+    public ResponseEntity<Person> findPersonById(@PathVariable String id) {
         log.info("Find person by id started >>>>>");
 
         Person person;
@@ -119,13 +119,13 @@ public class PersonController {
         } catch (Exception e) {
             log.error("Error while finding person with ID " + id, e.getMessage());
             e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         if (person == null) {
             String notFound = "Could not find person";
-            return new ResponseEntity<>(notFound, HttpStatus.NOT_FOUND);
+            return new ResponseEntity(notFound, HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(person, HttpStatus.OK);
+        return new ResponseEntity<Person>(person, HttpStatus.OK);
     }
 
     @CrossOrigin(origins = "*")
@@ -152,8 +152,8 @@ public class PersonController {
 
 
     @CrossOrigin(origins = "*")
-    @PutMapping("/updatePassword/{id}")
-    public ResponseEntity<?> updatePassword(@RequestHeader @Valid String password, @PathVariable String id) {
+    @PutMapping("/updatePassword/{cpf}")
+    public ResponseEntity<?> updatePassword(@RequestHeader @Valid String password, @PathVariable String cpf) {
         log.info("Update password started >>>>>");
         if (password == null || password.equals("")) {
             return new ResponseEntity<>("Password must not be null", HttpStatus.BAD_REQUEST);
@@ -163,15 +163,27 @@ public class PersonController {
         }
         Person response;
         try {
-            response = service.updatePassword(password, id);
+            response = service.updatePassword(password, cpf);
         } catch (Exception e) {
             log.error(e.getMessage());
             return new ResponseEntity<>("Could not update password", HttpStatus.INTERNAL_SERVER_ERROR);
         }
         if (response == null) {
-            return new ResponseEntity<>("Could not found password from ID: " + id, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Could not found password from ID: " + cpf, HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @CrossOrigin(origins = "*")
+    @GetMapping("/forgotPassword/{cpf}")
+    public ResponseEntity<?> forgotPassword(@PathVariable String cpf){
+        log.info("Forgot password started >>>>");
+        try{
+            service.forgotPassword(cpf);
+        }catch (Exception e){
+            return new ResponseEntity<>("Could not retrieve password", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @CrossOrigin(origins = "*")

@@ -1,6 +1,7 @@
 package com.mackenzie.cif.person.domain.service;
 
 import com.mackenzie.cif.person.common.AES;
+import com.mackenzie.cif.person.common.SendEmail;
 import com.mackenzie.cif.person.domain.domain.Person;
 import com.mackenzie.cif.person.domain.repository.PersonRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -46,6 +47,16 @@ public class PersonService {
             throw e;
         }
 
+        if(person.getPatient() != null){
+            String body =
+                "Olá, " + person.getFirstName()+"\n" +
+                "Você foi cadastrado no sistema Apliação CIF com sucesso!\n"+
+                "Use seu CPF e a senha: "+ AES.decrypt(person.getPassword(),KEY) + " para realizar o login.\n" +
+                "\n\nRecomendamos que após o login, seja feita a troca da senha, por questões de segurança"+
+                "\n\nEste é um email automatico, por favor não responda";
+
+            SendEmail.sendSimpleEmail(person.getEmail(),body);
+        }
     }
 
     public Person findPersonById(String id) {
@@ -95,16 +106,33 @@ public class PersonService {
         }
     }
 
-    public Person updatePassword(String password, String id) {
-        Optional<Person> optional = repository.findById(id);
+    public Person updatePassword(String password, String cpf) {
+        Person person = repository.findByCpf(cpf);
 
-        if (optional.isPresent()) {
-            Person db = optional.get();
-            db.setPassword(AES.encrypt(password, KEY));
-            repository.save(db);
-            return db;
+        if (person != null) {
+            person.setPassword(AES.encrypt(password, KEY));
+            repository.save(person);
+            return person;
         } else {
             throw new RuntimeException("Could not update password");
+        }
+    }
+
+    public void forgotPassword(String cpf){
+        Person person = repository.findByCpf(cpf);
+
+        if(person != null){
+            String body = "Olá, " + person.getFirstName()+"\n" +
+                    "Está é sua senha: "+ AES.decrypt(person.getPassword(),KEY) + "\n" +
+                    "\nRecomendamos que após o login, seja feita a troca da senha, por questões de segurança"+
+                    "\n\nEste é um email automatico, por favor não responda";
+            try{
+                log.error("Trying to send email");
+                SendEmail.sendSimpleEmail(person.getEmail(),body);
+            }catch (Exception e){
+                log.error("Error while trying to send email");
+                throw e;
+            }
         }
     }
 
