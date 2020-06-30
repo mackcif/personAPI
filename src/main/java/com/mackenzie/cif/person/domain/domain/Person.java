@@ -43,6 +43,12 @@ public class Person {
 
     private Boolean active;
 
+    private String occupation;
+
+    private String professionalID;
+
+    private String workPlace;
+
     public void setAddress(Address address){
         this.address = address;
     }
