@@ -1,6 +1,7 @@
 package com.mackenzie.cif.person.domain.dto;
 
 import com.mackenzie.cif.person.domain.domain.Address;
+import com.mackenzie.cif.person.domain.domain.ProfessionalData;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -39,6 +40,8 @@ public class PersonRequest {
     private String telephoneNumber;
 
     private Address address;
+
+    private ProfessionalData professionalData;
 
     private String cpf;
 

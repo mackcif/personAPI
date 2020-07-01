@@ -16,6 +16,7 @@ public class PersonConversor {
         person.setLastName(request.getLastName());
         person.setFirstName(request.getFirstName());
         person.setAddress(request.getAddress());
+        person.setProfessionalData(request.getProfessionalData());
         person.setBirthDate(request.getBirthDate());
         person.setId(request.getId());
         person.setCpf(request.getCpf());

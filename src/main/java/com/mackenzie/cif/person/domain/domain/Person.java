@@ -48,4 +48,5 @@ public class Person {
     public void setAddress(Address address){
         this.address = address;
     }
+    public void setProfessionalData(ProfessionalData professionalData){this.professionalData = professionalData;}
 }
