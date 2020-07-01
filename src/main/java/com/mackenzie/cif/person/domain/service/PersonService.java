@@ -47,23 +47,22 @@ public class PersonService {
             throw e;
         }
 
-        if(person.getPatient() != null){
-            String body =
-                "Olá, " + person.getFirstName()+"\n" +
-                "Você foi cadastrado no sistema Apliação CIF com sucesso!\n"+
-                "Use seu CPF e a senha: "+ AES.decrypt(person.getPassword(),KEY) + " para realizar o login.\n" +
-                "\n\nRecomendamos que após o login, seja feita a troca da senha, por questões de segurança"+
-                "\n\nEste é um email automatico, por favor não responda";
+        String body =
+                "Olá, " + person.getFirstName() + "\n" +
+                        "Você foi cadastrado no sistema Apliação CIF com sucesso!\n\n" +
+                        "Para acessar a plataforma, clique no link a seguir: https://aplicacao-cif.herokuapp.com\n"+
+                        "Use seu CPF e a senha: " + AES.decrypt(person.getPassword(), KEY) + " para realizar o login.\n" +
+                        "\n\nRecomendamos que após o login, seja feita a troca da senha, por questões de segurança" +
+                        "\n\nEste é um email automatico, por favor não responda";
 
-            SendEmail.sendSimpleEmail(person.getEmail(),body);
-        }
+        SendEmail.sendSimpleEmail(person.getEmail(), body);
     }
 
     public Person findPersonById(String id) {
         Person person = null;
         try {
             person = repository.findByIdAndActiveIsTrue(id);
-            if(person != null){
+            if (person != null) {
                 person.setPassword(AES.decrypt(person.getPassword(), KEY));
             }
 
@@ -118,18 +117,18 @@ public class PersonService {
         }
     }
 
-    public void forgotPassword(String cpf){
+    public void forgotPassword(String cpf) {
         Person person = repository.findByCpf(cpf);
 
-        if(person != null){
-            String body = "Olá, " + person.getFirstName()+"\n" +
-                    "Está é sua senha: "+ AES.decrypt(person.getPassword(),KEY) + "\n" +
-                    "\nRecomendamos que após o login, seja feita a troca da senha, por questões de segurança"+
+        if (person != null) {
+            String body = "Olá, " + person.getFirstName() + "\n\n" +
+                    "Está é sua senha: " + AES.decrypt(person.getPassword(), KEY) + "\n" +
+                    "\nRecomendamos que após o login, seja feita a troca da senha, por questões de segurança" +
                     "\n\nEste é um email automatico, por favor não responda";
-            try{
+            try {
                 log.error("Trying to send email");
-                SendEmail.sendSimpleEmail(person.getEmail(),body);
-            }catch (Exception e){
+                SendEmail.sendSimpleEmail(person.getEmail(), body);
+            } catch (Exception e) {
                 log.error("Error while trying to send email");
                 throw e;
             }
@@ -169,9 +168,9 @@ public class PersonService {
 
         try {
             log.info("validating existence of person");
-            if(userLogin.contains("@")){
+            if (userLogin.contains("@")) {
                 exist = repository.existsByEmailAndPasswordAndActiveIsTrue(userLogin, password);
-            }else{
+            } else {
                 exist = repository.existsByCpfAndPasswordAndActiveIsTrue(userLogin, password);
             }
         } catch (Exception e) {
@@ -183,9 +182,9 @@ public class PersonService {
         Person person = null;
         if (exist) {
             log.info("searching person on database");
-            if(userLogin.contains("@")){
+            if (userLogin.contains("@")) {
                 person = repository.findByEmail(userLogin);
-            }else{
+            } else {
                 person = repository.findByCpf(userLogin);
             }
         } else {
@@ -195,23 +194,23 @@ public class PersonService {
         return person;
     }
 
-    public List<Person> findPatientsByTherapist(String id){
+    public List<Person> findPatientsByTherapist(String id) {
         List<Person> patients = null;
-        try{
+        try {
             patients = repository.findAllByPatientNotNullAndPatientTherapistId(id);
             patients.removeIf(patient -> !patient.getActive());
-        }catch (Exception e){
+        } catch (Exception e) {
             log.error("Erro while trying to list patients from therapist", e.getMessage());
             throw e;
         }
         return patients;
     }
 
-    public Person findPersonByCPF(String cpf){
+    public Person findPersonByCPF(String cpf) {
         Person person = null;
-        try{
+        try {
             person = repository.findByCpf(cpf);
-        }catch (Exception e){
+        } catch (Exception e) {
             log.error("Error while trying to find person by CPF", e.getMessage());
             throw e;
         }
