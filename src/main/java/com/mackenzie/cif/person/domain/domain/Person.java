@@ -22,6 +22,8 @@ public class Person {
 
     @NotNull
     private String lastName;
+    
+    private String profilePic;
 
     @NotNull
     private LocalDateTime birthDate;
