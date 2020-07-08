@@ -23,6 +23,8 @@ public class PersonRequest {
 
     @NotNull
     private String lastName;
+    
+    private String profilePic;
 
     @NotNull
     private LocalDateTime birthDate;
