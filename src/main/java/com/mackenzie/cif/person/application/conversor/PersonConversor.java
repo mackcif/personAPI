@@ -20,6 +20,7 @@ public class PersonConversor {
         person.setBirthDate(request.getBirthDate());
         person.setId(request.getId());
         person.setCpf(request.getCpf());
+        person.setProfilePic(request.getProfilePic());
         if(request.getPatient() != null){
             Patient patient = new Patient();
             patient.setNote(request.getPatient().getNote());
