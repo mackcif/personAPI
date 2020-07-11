@@ -87,7 +87,7 @@ public class PersonService {
             db.setEmail(person.getEmail());
             db.setSex(person.getSex());
             db.setTelephoneNumber(person.getTelephoneNumber());
-
+            db.setProfilePic(person.getProfilePic());
             if (!db.getPassword().equals(person.getPassword())) {
                 person.setPassword(AES.encrypt(person.getPassword(), KEY));
                 db.setPassword(person.getPassword());
@@ -96,6 +96,11 @@ public class PersonService {
             if (person.getPatient() != null) {
                 db.getPatient().setTherapist(person.getPatient().getTherapist());
                 db.getPatient().setNote(person.getPatient().getNote());
+            }
+            if (person.getProfessionalData() != null){
+                db.getProfessionalData().setOccupation(person.getProfessionalData().getOccupation());
+                db.getProfessionalData().setProfessionalID(person.getProfessionalData().getProfessionalID());
+                db.getProfessionalData().setWorkPlace(person.getProfessionalData().getWorkPlace());
             }
             db.setAddress(person.getAddress());
             repository.save(db);
