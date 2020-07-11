@@ -12,7 +12,6 @@ Os links abaixo levam as outras API's usadas no projeto.
 # Endpoints e Responses
 Base Url: https://java-cif-person-api.herokuapp.com
 
-:point_right: [Download postman collection](https://drive.google.com/file/d/1n8u304yYKJAL5DkNAohzgSLJq7qMr8zi/view?usp=sharing)  :point_left:
 
 List All Patients
 -
@@ -20,55 +19,6 @@ List All Patients
 ```http
  GET /v1/person/listAllPatient
 ```
-Example Response
-```json
-[
-    {
-        "id": "string",
-        "cpf": "string",
-        "firstName": "string",
-        "lastName": "string",
-        "birthDate": "date time",
-        "email": "sintr",
-        "password": "string",
-        "sex": "string",
-        "telephoneNumber": "string",
-        "address": {
-            "publicPlace": "string",
-            "houseNumber": 213,
-            "neighborhood": "string",
-            "city": "string",
-            "state": "string",
-            "postalCode": "string"
-        },
-        "patient": {
-            "therapist": {
-                "id": "string",
-                "cpf": "string",
-                "firstName": "string",
-                "lastName": "string",
-                "birthDate": "date time",
-                "email": "string",
-                "password": "string",
-                "sex": "string",
-                "telephoneNumber": "string",
-                "address": {
-                    "publicPlace": "string",
-                    "houseNumber": 213,
-                    "neighborhood": "string",
-                    "city": "string",
-                    "state": "string",
-                    "postalCode": "string"
-                },
-                "active": true
-            },
-            "note": "string"
-        },
-        "active": true
-    }
-]
-```
-
 ## Status Codes
 
 Possiveis Retornos
@@ -87,32 +37,6 @@ List All Therapist
 ```http
  GET /v1/person/listAllTherapist
 ```
-Example Response
-```json
-[
-    {
-        "id": "string",
-        "cpf": "string",
-        "firstName": "string",
-        "lastName": "string",
-        "birthDate": "date time",
-        "email": "sintr",
-        "password": "string",
-        "sex": "string",
-        "telephoneNumber": "string",
-        "address": {
-            "publicPlace": "string",
-            "houseNumber": 213,
-            "neighborhood": "string",
-            "city": "string",
-            "state": "string",
-            "postalCode": "string"
-        },
-        "active": true
-    }
-]
-```
-
 ## Status Codes
 
 Possiveis Retornos
@@ -135,30 +59,6 @@ Find By ID
 | :--- | :--- | :--- | :--- | :--- |
 | `path` | `id` | `string` | Person ID  |  **TRUE**    |
 
-Example Response
-```json
-{
-    "id": "string",
-    "cpf": "string",
-    "firstName": "string",
-    "lastName": "string",
-    "birthDate": "date time",
-    "email": "sintr",
-    "password": "string",
-    "sex": "string",
-    "telephoneNumber": "string",
-    "address": {
-        "publicPlace": "string",
-        "houseNumber": 213,
-        "neighborhood": "string",
-        "city": "string",
-        "state": "string",
-        "postalCode": "string"
-    },
-    "active": true
-}
-```
-
 ## Status Codes
 
 Possiveis Retornos
@@ -180,32 +80,6 @@ Find By ID
 | :--- | :--- | :--- | :--- | :--- |
 | `path` | `id` | `string` | Person ID  |  **TRUE**    |
 
-Example Response
-```json
-[
-    {
-        "id": "string",
-        "cpf": "string",
-        "firstName": "string",
-        "lastName": "string",
-        "birthDate": "date time",
-        "email": "sintr",
-        "password": "string",
-        "sex": "string",
-        "telephoneNumber": "string",
-        "address": {
-            "publicPlace": "string",
-            "houseNumber": 213,
-            "neighborhood": "string",
-            "city": "string",
-            "state": "string",
-            "postalCode": "string"
-        },
-        "active": true
-    }
-]
-```
-
 ## Status Codes
 
 Possiveis Retornos
@@ -226,30 +100,6 @@ Find By CPF
 |   Where   | Parameter | Type | Description |  Required    |
 | :--- | :--- | :--- | :--- | :--- |
 | `path` | `cpf` | `string` | Person CPF  |  **TRUE**    |
-
-Example Response
-```json
-{
-    "id": "string",
-    "cpf": "string",
-    "firstName": "string",
-    "lastName": "string",
-    "birthDate": "date time",
-    "email": "sintr",
-    "password": "string",
-    "sex": "string",
-    "telephoneNumber": "string",
-    "address": {
-        "publicPlace": "string",
-        "houseNumber": 213,
-        "neighborhood": "string",
-        "city": "string",
-        "state": "string",
-        "postalCode": "string"
-    },
-    "active": true
-}
-```
 
 ## Status Codes
 
@@ -273,30 +123,6 @@ Login
 | :--- | :--- | :--- | :--- | :--- |
 | `Header` | `userLogin` | `string` | CPF ou Email  |  **TRUE**    |
 | `Header` | `password` | `string` | Senha  |  **TRUE**    |
-
-Example Response
-```json
-{
-    "id": "string",
-    "cpf": "string",
-    "firstName": "string",
-    "lastName": "string",
-    "birthDate": "date time",
-    "email": "sintr",
-    "password": "string",
-    "sex": "string",
-    "telephoneNumber": "string",
-    "address": {
-        "publicPlace": "string",
-        "houseNumber": 213,
-        "neighborhood": "string",
-        "city": "string",
-        "state": "string",
-        "postalCode": "string"
-    },
-    "active": true
-}
-```
 
 ## Status Codes
 
@@ -342,30 +168,6 @@ Update Password
 | `path` | `id` | `string` | Person ID  |  **TRUE**    |
 | `header` | `password` | `string` | Nova Senha  |  **TRUE**    |
 
-Example Response
-```json
-{
-    "id": "string",
-    "cpf": "string",
-    "firstName": "string",
-    "lastName": "string",
-    "birthDate": "date time",
-    "email": "sintr",
-    "password": "string",
-    "sex": "string",
-    "telephoneNumber": "string",
-    "address": {
-        "publicPlace": "string",
-        "houseNumber": 213,
-        "neighborhood": "string",
-        "city": "string",
-        "state": "string",
-        "postalCode": "string"
-    },
-    "active": true
-}
-```
-
 ## Status Codes
 
 Possiveis Retornos
@@ -377,7 +179,7 @@ Possiveis Retornos
 | 404 | `NOT FOUND` | |
 | 500 | `INTERNAL SERVER ERROR` |  `Could not delete person` |
 
-Update Password
+Reactivate Password
 -
 * Ativa o cadastro da pessoa
 ```http
@@ -386,30 +188,6 @@ Update Password
 |   Where   | Parameter | Type | Description |  Required    |
 | :--- | :--- | :--- | :--- | :--- |
 | `path` | `id` | `string` | Person ID  |  **TRUE**    |
-
-Example Response
-```json
-{
-    "id": "string",
-    "cpf": "string",
-    "firstName": "string",
-    "lastName": "string",
-    "birthDate": "date time",
-    "email": "sintr",
-    "password": "string",
-    "sex": "string",
-    "telephoneNumber": "string",
-    "address": {
-        "publicPlace": "string",
-        "houseNumber": 213,
-        "neighborhood": "string",
-        "city": "string",
-        "state": "string",
-        "postalCode": "string"
-    },
-    "active": true
-}
-```
 
 ## Status Codes
 
@@ -430,51 +208,19 @@ Register Therapist
  POST /v1/person/register
 ```
 Body
-```json
-{
-    "cpf": "string",
-    "firstName": "string",
-    "lastName": "string",
-    "birthDate": "date time",
-    "email": "sintr",
-    "password": "string",
-    "sex": "string",
-    "telephoneNumber": "string",
-    "address": {
-        "publicPlace": "string",
-        "houseNumber": 213,
-        "neighborhood": "string",
-        "city": "string",
-        "state": "string",
-        "postalCode": "string"
-    },
-    "active": true
-}
-```
-
-Example Response
-```json
-{
-    "id": "string",
-    "cpf": "string",
-    "firstName": "string",
-    "lastName": "string",
-    "birthDate": "date time",
-    "email": "sintr",
-    "password": "string",
-    "sex": "string",
-    "telephoneNumber": "string",
-    "address": {
-        "publicPlace": "string",
-        "houseNumber": 213,
-        "neighborhood": "string",
-        "city": "string",
-        "state": "string",
-        "postalCode": "string"
-    },
-    "active": true
-}
-```
+| Parameter | Type | Required |
+| :--- | :--- | :--- |
+| `cpf` | `string` | **TRUE** |
+| `firstName` | `string` | **TRUE** |
+| `lastName` | `string` | **TRUE** |
+| `birthDate` | `date time` | **TRUE** |
+| `email` | `string` | **TRUE** |
+| `password` | `string` | **TRUE** |
+| `sex` | `string` | **TRUE** |
+| `telephoneNumber` | `string` | **TRUE** |
+| `profilePic` | `string` | **TRUE** |
+| `address` | `Address` | **TRUE** |
+| `professionalData` | `ProfessionalData` | **TRUE** |
 
 ## Status Codes
 
@@ -497,78 +243,20 @@ Register Patient
  POST /v1/person/register
 ```
 Body
-```json
-{
-    "cpf": "string",
-    "firstName": "string",
-    "lastName": "string",
-    "birthDate": "date time",
-    "email": "sintr",
-    "password": "string",
-    "sex": "string",
-    "telephoneNumber": "string",
-    "address": {
-        "publicPlace": "string",
-        "houseNumber": 213,
-        "neighborhood": "string",
-        "city": "string",
-        "state": "string",
-        "postalCode": "string"
-    },
-    "patient": {
-    	"therapistID": "string",
-    	"note":"string"
-    },
-    "active": true
-}
-```
+| Parameter | Type | Required |
+| :--- | :--- | :--- |
+| `cpf` | `string` | **TRUE** |
+| `firstName` | `string` | **TRUE** |
+| `lastName` | `string` | **TRUE** |
+| `birthDate` | `date time` | **TRUE** |
+| `email` | `string` | **TRUE** |
+| `password` | `string` | **TRUE** |
+| `sex` | `string` | **TRUE** |
+| `telephoneNumber` | `string` | **TRUE** |
+| `profilePic` | `string` | **TRUE** |
+| `address` | `Address` | **TRUE** |
+| `patient` | `PatientRequest` | **TRUE** |
 
-Example Response
-```json
-{
-    "id": "string",
-    "cpf": "string",
-    "firstName": "string",
-    "lastName": "string",
-    "birthDate": "date time",
-    "email": "sintr",
-    "password": "string",
-    "sex": "string",
-    "telephoneNumber": "string",
-    "address": {
-        "publicPlace": "string",
-        "houseNumber": 213,
-        "neighborhood": "string",
-        "city": "string",
-        "state": "string",
-        "postalCode": "string"
-    },
-    "patient": {
-      "therapist": {
-        "id": "string",
-        "cpf": "string",
-        "firstName": "string",
-        "lastName": "string",
-        "birthDate": "date time",
-        "email": "sintr",
-        "password": "string",
-        "sex": "string",
-        "telephoneNumber": "string",
-        "address": {
-            "publicPlace": "string",
-            "houseNumber": 213,
-            "neighborhood": "string",
-            "city": "string",
-            "state": "string",
-            "postalCode": "string"
-        },
-        "active": true
-      },
-      "note": "string"
-    },
-    "active": true
-}
-```
 
 ## Status Codes
 
