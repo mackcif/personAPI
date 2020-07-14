@@ -17,22 +17,17 @@ public class Person {
 
     private String cpf;
 
-    @NotNull
     private String firstName;
 
-    @NotNull
     private String lastName;
     
     private String profilePic;
 
-    @NotNull
     private LocalDateTime birthDate;
 
-    @NotNull
     @Email
     private String email;
 
-    @NotNull
     private String password;
 
     private String sex;

@@ -80,14 +80,14 @@ public class PersonService {
         if (optional.isPresent()) {
             Person db = optional.get();
 
-            db.setId(person.getId());
-            db.setBirthDate(person.getBirthDate());
-            db.setFirstName(person.getFirstName());
-            db.setLastName(person.getLastName());
-            db.setEmail(person.getEmail());
-            db.setSex(person.getSex());
-            db.setTelephoneNumber(person.getTelephoneNumber());
-            db.setProfilePic(person.getProfilePic());
+            db.setId(person.getId() != null ? person.getId() : db.getId());
+            db.setBirthDate(person.getBirthDate() != null ? person.getBirthDate() : db.getBirthDate());
+            db.setFirstName(person.getFirstName() != null ? person.getFirstName() : db.getFirstName());
+            db.setLastName(person.getLastName() != null ? person.getLastName() : db.getLastName());
+            db.setEmail(person.getEmail() != null ? person.getEmail() : db.getEmail());
+            db.setSex(person.getSex() != null ? person.getSex() : db.getSex());
+            db.setTelephoneNumber(person.getTelephoneNumber() != null ? person.getTelephoneNumber() : db.getTelephoneNumber());
+            db.setProfilePic(person.getProfilePic() != null ? person.getProfilePic() : db.getProfilePic());
             if (!db.getPassword().equals(person.getPassword())) {
                 person.setPassword(AES.encrypt(person.getPassword(), KEY));
                 db.setPassword(person.getPassword());
@@ -102,7 +102,7 @@ public class PersonService {
                 db.getProfessionalData().setProfessionalID(person.getProfessionalData().getProfessionalID());
                 db.getProfessionalData().setWorkPlace(person.getProfessionalData().getWorkPlace());
             }
-            db.setAddress(person.getAddress());
+            db.setAddress(person.getAddress() != null ? person.getAddress() : db.getAddress());
             repository.save(db);
             return db;
         } else {

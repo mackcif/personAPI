@@ -18,22 +18,18 @@ public class PersonRequest {
     @Id
     private String id;
 
-    @NotNull
+
     private String firstName;
 
-    @NotNull
     private String lastName;
     
     private String profilePic;
 
-    @NotNull
     private LocalDateTime birthDate;
 
-    @NotNull
     @Email
     private String email;
 
-    @NotNull
     @Size(min = 6, max = 8)
     private String password;
 

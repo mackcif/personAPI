@@ -132,7 +132,7 @@ public class PersonController {
     @PutMapping("/updatePerson/{id}")
     public ResponseEntity<?> updatePerson(@PathVariable String id, @RequestBody @Valid Person body) {
         log.info("Update person started >>>>>");
-        if (body.getCpf() == null || !ValidadorCpf.isCPF(body.getCpf())) {
+        if (body.getCpf() != null && !ValidadorCpf.isCPF(body.getCpf())) {
             log.error("Invalid cpf!");
             return new ResponseEntity<>("Please enter a valid CPF", HttpStatus.FORBIDDEN);
         }
